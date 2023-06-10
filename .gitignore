@@ -1,0 +1,11 @@
+# Directories
+**bin/
+**bin-int/
+
+# Files
+*.user
+*imgui.ini
+
+# Visual Studio
+.vs/
+*.vcxproj.user
