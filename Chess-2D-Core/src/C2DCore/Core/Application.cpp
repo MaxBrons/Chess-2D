@@ -5,22 +5,29 @@ namespace C2DCore
 {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string& name, uint32_t width, uint32_t height)
+	Application::Application(const std::string& name, unsigned int width, unsigned int height)
 	{
 		if (s_Instance != nullptr)
 			return;
 		s_Instance = this;
 
-		EventSystem::EventManager::Get().OnEvent += BIND_ACTION_FN_PM(Application::OnWindowCloseEvent, 1);
 		EventSystem::EventManager::Get().OnEvent += BIND_ACTION_FN_PM(Application::OnEvent, 1);
 
 		m_Window = std::make_unique<Window>(WindowSettings(name, width, height, true));
+
+		m_ImGuiBehaviour = new ImGuiBehaviour();
+		AddBehaviour(m_ImGuiBehaviour);
 	}
 
 	Application::~Application()
 	{
+		EventSystem::EventManager::Get().OnEvent -= BIND_ACTION_FN_PM(Application::OnEvent, 1);
+
 		for (auto behaviour : m_Behaviours)
+		{
+			behaviour->OnDestroy();
 			delete behaviour;
+		}
 	}
 
 	void Application::Run()
@@ -33,6 +40,12 @@ namespace C2DCore
 
 			for (auto behaviour : m_Behaviours)
 				behaviour->OnUpdate(deltaTime);
+
+			m_ImGuiBehaviour->Begin();
+			for (auto behaviour : m_Behaviours)
+				behaviour->OnImGuiRender();
+			m_ImGuiBehaviour->End();
+
 			m_Window->OnUpdate();
 		}
 	}
@@ -41,19 +54,14 @@ namespace C2DCore
 	{
 		for (auto behaviour : m_Behaviours)
 			behaviour->OnEvent(event);
-	}
 
-	void Application::OnWindowCloseEvent(Event& event)
-	{
-		if (event.GetEventType() != WindowCloseEvent::GetStaticEventType())
-			return;
-
-		m_Running = false;
+		if (event.GetEventType() == WindowCloseEvent::GetStaticEventType())
+			m_Running = false;
 	}
 
 	void Application::AddBehaviour(Behaviour* behaviour)
 	{
-		m_Behaviours.push_back(behaviour);
+		m_Behaviours.emplace(m_Behaviours.begin(), behaviour);
 		behaviour->OnStart();
 	}
 
@@ -64,7 +72,7 @@ namespace C2DCore
 		{
 			(*it)->OnDestroy();
 			m_Behaviours.erase(it);
-			delete *it;
+			delete* it;
 		}
 	}
 }

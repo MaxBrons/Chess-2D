@@ -8,7 +8,7 @@ namespace C2DCore
 	class Behaviour
 	{
 	public:
-		Behaviour(const std::string& name)
+		Behaviour(const std::string& name = "")
 			:m_Name(name)
 		{
 		}
@@ -18,6 +18,7 @@ namespace C2DCore
 		virtual void OnUpdate(float deltaTime) {};
 		virtual void OnDestroy() {};
 		virtual void OnEvent(Event& e) {}
+		virtual void OnImGuiRender() {}
 
 		std::string& GetName() { return m_Name; }
 

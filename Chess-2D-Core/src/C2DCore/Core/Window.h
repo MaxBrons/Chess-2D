@@ -11,14 +11,15 @@ namespace C2DCore
 	struct WindowSettings
 	{
 		std::string Title;
-		uint32_t Width;
-		uint32_t Height;
+		unsigned int Width;
+		unsigned int Height;
+		float Ratio;
 
 		bool VSync;
 
 		WindowSettings() = default;
-		WindowSettings(const std::string& Title, const uint32_t& Width, const uint32_t& Height, bool VSync)
-			: Title(Title), Width(Width), Height(Height), VSync(VSync)
+		WindowSettings(const std::string& Title, const unsigned int& Width, const unsigned int& Height, bool VSync)
+			: Title(Title), Width(Width), Height(Height), Ratio(Width/Height), VSync(VSync)
 		{
 		}
 	};
@@ -32,12 +33,14 @@ namespace C2DCore
 		void OnUpdate();
 
 		inline const std::string& GetTitle() const { return m_Settings.Title; }
-		inline uint32_t GetWidth() const { return m_Settings.Width; }
-		inline uint32_t GetHeight() const { return m_Settings.Height; }
+		inline unsigned int GetWidth() const { return m_Settings.Width; }
+		inline unsigned int GetHeight() const { return m_Settings.Height; }
 		inline WindowSettings& GetSettings() { return m_Settings; }
 
 		inline void SetVSync(bool enabled);
 		inline bool IsVSync() const;
+
+		inline GLFWwindow* GetNativeWindow() const { return m_Window; }
 
 	private:
 		virtual void Init(const WindowSettings& settings);

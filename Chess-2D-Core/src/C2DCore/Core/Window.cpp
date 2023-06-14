@@ -11,16 +11,23 @@ namespace C2DCore
 	void Window::Init(const WindowSettings& settings)
 	{
 		m_Settings = settings;
-		glfwInit();
+		if (!glfwInit())
+			return;
+
 		glfwSetErrorCallback([](int error, const char* description)
 			{
 				std::cout << "ERROR " << error << ": " << description << std::endl;
 			});
 
-		m_Window = glfwCreateWindow((int)m_Settings.Width, (int)m_Settings.Height, m_Settings.Title.c_str(), nullptr, nullptr);
 
+		m_Window = glfwCreateWindow((int)m_Settings.Width, (int)m_Settings.Height, m_Settings.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
-		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+		if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			std::cout << "Failed to initialize GLAD" << std::endl;
+			return;
+		}
 
 		glfwSetWindowUserPointer(m_Window, &m_Settings);
 		SetVSync(true);
@@ -89,6 +96,7 @@ namespace C2DCore
 	{
 		if (m_Window == nullptr)
 			return;
+
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
 	}

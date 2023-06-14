@@ -18,12 +18,12 @@
     <ClCompile Include="src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameBehaviour.cpp">
+    <ClCompile Include="src\GameScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameBehaviour.h">
+    <ClInclude Include="src\GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

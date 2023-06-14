@@ -46,7 +46,7 @@ namespace C2DCore::EventSystem
 	class WindowResizeEvent : public Event
 	{
 	public:
-		WindowResizeEvent(uint32_t width, uint32_t height)
+		WindowResizeEvent(unsigned int width, unsigned int height)
 			:Width(width), Height(height)
 		{
 		}

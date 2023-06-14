@@ -158,10 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameBehaviour.cpp" />
+    <ClCompile Include="src\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameBehaviour.h" />
+    <ClInclude Include="src\GameScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

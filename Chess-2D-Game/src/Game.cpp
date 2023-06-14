@@ -1,6 +1,6 @@
 #include "c2dpch.h"
 #include "C2DCore.h"
-#include "GameBehaviour.h"
+#include "GameScene.h"
 
 int main()
 {
@@ -8,7 +8,7 @@ int main()
 
 	std::unique_ptr<EventManager> eventManager = std::make_unique<EventManager>();
 	std::unique_ptr<Application> app = std::make_unique<Application>();
-	app->AddBehaviour(new C2DGame::GameBehaviour("LEVEL 1"));
+	app->AddBehaviour(new C2DGame::GameScene("LEVEL 1"));
 	app->Run();
 	return 0;
 }
