@@ -97,7 +97,7 @@ namespace C2DCore
 		if (m_Window == nullptr)
 			return;
 
-		glfwPollEvents();
+		glfwWaitEvents();
 		glfwSwapBuffers(m_Window);
 	}
 

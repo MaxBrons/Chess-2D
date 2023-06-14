@@ -39,7 +39,7 @@ namespace C2DCore
 			m_LastFrameTime = time;
 
 			for (auto behaviour : m_Behaviours)
-				behaviour->OnUpdate(deltaTime);
+				behaviour->OnUpdate(m_LastFrameTime);
 
 			m_ImGuiBehaviour->Begin();
 			for (auto behaviour : m_Behaviours)
