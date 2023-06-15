@@ -29,7 +29,7 @@ namespace C2DGame
 			"_pawn_png_1024px",
 			"_pawn_png_1024px"
 		};
-		for (size_t y = 0; y < 2; y++)
+		/*for (size_t y = 0; y < 2; y++)
 		{
 			for (size_t x = 0; x < 8; x++)
 			{
@@ -43,7 +43,7 @@ namespace C2DGame
 			{
 				m_GameObjects.push_back(new Pawn("assets/JohnPablok_ChessSet/w" + files[x + (y * 8)] + ".png", 0, glm::vec3(0.5f + x, -7.5f + (y), 0.0f), 0.05f / 8 * 10));
 			}
-		}
+		}*/
 		m_GameObjects.push_back(new Board());
 
 		for (auto& p : m_GameObjects)

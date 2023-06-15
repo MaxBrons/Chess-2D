@@ -17,9 +17,22 @@ namespace C2DGame
 
 		void OnStart() override;
 		void OnUpdate(float deltaTime) override;
+		void OnImGuiRender() override;
 		void OnDestroy() override;
 
 	private:
 		std::vector<Behaviour*> m_Blocks;
+
+		Renderer m_Renderer;
+		Texture* m_Texture = nullptr;
+		Texture* m_Texture2 = nullptr;
+		Shader* m_Shader = nullptr;
+
+		VertexArray* m_VA = nullptr;
+		VertexBuffer* m_VB = nullptr;
+		VertexBufferLayout* M_VBL = nullptr;
+		IndexBuffer* m_IB = nullptr;
+
+		glm::mat4 m_VPM;
 	};
 }
