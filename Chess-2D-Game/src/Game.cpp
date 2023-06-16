@@ -1,6 +1,7 @@
 #include "c2dpch.h"
 #include "C2DCore.h"
 #include "GameScene.h"
+#include "tchar.h"
 
 int main()
 {

@@ -41,10 +41,13 @@ namespace C2DCore
 			for (auto behaviour : m_Behaviours)
 				behaviour->OnUpdate(m_LastFrameTime);
 
+#ifdef C2D_DEBUG
 			m_ImGuiBehaviour->Begin();
 			for (auto behaviour : m_Behaviours)
 				behaviour->OnImGuiRender();
 			m_ImGuiBehaviour->End();
+#endif // C2D_DEBUG
+
 
 			m_Window->OnUpdate();
 		}
