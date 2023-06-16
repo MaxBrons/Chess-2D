@@ -3,22 +3,22 @@
 
 namespace C2DGame
 {
-	Pawn::Pawn(const std::string& texture, unsigned int textureSlot, glm::vec3 position, float scale, unsigned int layer)
-		:Behaviour("Pawn"), m_TextureSlot(textureSlot), m_TexturePath(texture), m_Position(position), m_Scale(scale), m_Layer(layer)
+	Pawn::Pawn(const std::string& texture, unsigned int textureSlot, glm::vec3 position, glm::vec2 pixelPosition, float scale, unsigned int layer)
+		:Behaviour("Pawn"), m_TextureSlot(textureSlot), m_TexturePath(texture), m_Position(position), m_PixelPosition(pixelPosition), m_Scale(scale), m_Layer(layer)
 	{
 	}
 
 	void Pawn::OnStart()
 	{
-		m_VA = new VertexArray();
-		m_VA->Bind();
-
 		float vertices[] = {
 			-0.5f, -0.5f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 1.0f, 0.0f,
 			 0.5f,  0.5f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 1.0f
 		};
+
+		m_VA = new VertexArray();
+		m_VA->Bind();
 
 		m_VB = new VertexBuffer(vertices, 4 * 4 * sizeof(float));
 		M_VBL = new VertexBufferLayout();
@@ -47,7 +47,7 @@ namespace C2DGame
 		m_IB->Unbind();
 		m_Shader->Unbind();
 	}
-	static bool ADD = false;
+
 	void Pawn::OnUpdate(float deltaTime)
 	{
 		float orthoOffset = (m_Position.z + m_Layer + 0.5f) / m_Scale;
@@ -57,6 +57,8 @@ namespace C2DGame
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(-m_Position.x, m_Position.y, 0.0f));
 		m_VPM = proj * view * model;
 
+		m_VA->Bind();
+		m_IB->Bind();
 		m_Shader->Bind();
 		m_Shader->SetUniform4f("u_MVP", m_VPM);
 		m_Texture->Bind();
@@ -73,12 +75,6 @@ namespace C2DGame
 
 	void Pawn::OnEvent(Event& e)
 	{
-		if (e.GetEventType() == MouseButtonPressedEvent::GetStaticEventType())
-		{
-			auto& mousePressed = (MouseButtonPressedEvent&)(e);
-			std::cout << (mousePressed.Button) << std::endl;
-		}
-
 		if (e.GetEventType() == WindowResizeEvent::GetStaticEventType())
 		{
 			auto& sizeEvent = (WindowResizeEvent&)(e);
@@ -90,6 +86,21 @@ namespace C2DGame
 	{
 		ImGui::DragFloat3("Position", (float*)&m_Position, 0.005f);
 		ImGui::InputFloat("Scale", (float*)&m_Scale, 0.0f, 10.0f);
-		ImGui::Checkbox("box", &ADD);
+	}
+
+	bool Pawn::Move(glm::vec2 destination)
+	{
+		auto& app = Application::Get();
+		glm::vec2 windowSize = glm::vec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		auto blockSize = glm::vec2(windowSize.x / 8, windowSize.y / 8);
+
+		glm::vec2 delta = m_PixelPosition - destination;
+		int deltaX = delta.x / blockSize.x;
+		int deltaY = delta.y / blockSize.y;
+		m_Position.x -= deltaX;
+		m_Position.y += deltaY;
+		m_PixelPosition = destination;
+		std::cout << (deltaX != 0 || deltaY != 0) << std::endl;
+		return deltaX != 0 || deltaY != 0;
 	}
 }

@@ -12,7 +12,7 @@ namespace C2DGame
 	class Pawn : public Behaviour
 	{
 	public:
-		Pawn(const std::string& texture, unsigned int textureSlot, glm::vec3 position, float scale = 1.0f, unsigned int layer = 0);
+		Pawn(const std::string& texture, unsigned int textureSlot, glm::vec3 position, glm::vec2 pixelPosition, float scale = 1.0f, unsigned int layer = 0);
 		~Pawn() = default;
 
 
@@ -21,6 +21,9 @@ namespace C2DGame
 		void OnDestroy() override;
 		void OnEvent(Event& e) override;
 		void OnImGuiRender() override;
+		bool Move(glm::vec2 destination);
+
+		inline glm::vec2 GetPixelPosition() const { return m_PixelPosition; }
 
 	private:
 		Renderer m_Renderer;
@@ -36,6 +39,7 @@ namespace C2DGame
 		glm::mat4 m_VPM;
 
 		glm::vec3 m_Position;
+		glm::vec2 m_PixelPosition = glm::vec2();
 		std::string m_TexturePath;
 		float m_Scale = 1.0f;
 		unsigned int m_Layer = 0;

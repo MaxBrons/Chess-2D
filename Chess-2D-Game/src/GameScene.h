@@ -2,6 +2,7 @@
 #include "C2DCore.h"
 #include "C2DCore/Core/Behaviour.h"
 #include "C2DCore/Rendering/Rendering.h"
+#include "Pawn.h"
 
 using namespace C2DCore;
 namespace C2DGame
@@ -24,5 +25,7 @@ namespace C2DGame
 	private:
 		std::vector<Behaviour*> m_GameObjects;
 		Renderer m_Renderer;
+		Pawn* m_CurrentSelectedPawn = nullptr;
+		glm::vec2 m_MousePosition;
 	};
 }
